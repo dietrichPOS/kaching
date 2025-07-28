@@ -20,8 +20,10 @@ class PaymentResponseDto {
   String? cardNo;
   String? businessOrderNo;
   String? paymentScenario;
+  String? cardIssuerName;
   String? transDate;
   String? respCode;
+  int? payAtPump;
 
   PaymentResponseDto({
     this.refNo,
@@ -33,36 +35,42 @@ class PaymentResponseDto {
     this.cardNo,
     this.businessOrderNo,
     this.paymentScenario,
+    this.cardIssuerName,
     this.transDate,
     this.respCode,
+    this.payAtPump,
   });
 
   factory PaymentResponseDto.fromJson(Map<String, dynamic> json) =>
       PaymentResponseDto(
-        refNo: json["refNo"],
-        batchNo: json["batchNo"],
-        authCode: json["authCode"],
-        transTime: json["transTime"],
-        traceNo: json["traceNo"],
-        amt: json["amt"],
-        cardNo: json["cardNo"],
-        businessOrderNo: json["businessOrderNo"],
-        paymentScenario: json["paymentScenario"],
-        transDate: json["transDate"],
-        respCode: json["respCode"],
+        refNo: json["refNo"] ?? '',
+        batchNo: json["batchNo"] ?? '',
+        authCode: json["authCode"] ?? '',
+        transTime: json["transTime"] ?? '',
+        traceNo: json["traceNo"] ?? '',
+        amt: json["amt"] ?? '0',
+        cardNo: json["cardNo"] ?? '',
+        businessOrderNo: json["businessOrderNo"] ?? '',
+        paymentScenario: json["paymentScenario"] ?? 'CARD',
+        cardIssuerName: json["cardIssuerName"] ?? '',
+        transDate: json["transDate"] ?? '',
+        respCode: json["respCode"] ?? '',
+        payAtPump: json["payAtPump"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
-        "refNo": refNo,
-        "batchNo": batchNo,
-        "authCode": authCode,
-        "transTime": transTime,
-        "traceNo": traceNo,
-        "amt": amt,
-        "cardNo": cardNo,
-        "businessOrderNo": businessOrderNo,
-        "paymentScenario": paymentScenario,
-        "transDate": transDate,
-        "respCode": respCode,
-      };
+    "refNo": refNo ?? '',
+    "batchNo": batchNo ?? '',
+    "authCode": authCode ?? '',
+    "transTime": transTime ?? '',
+    "traceNo": traceNo ?? '',
+    "amt": amt ?? '0',
+    "cardNo": cardNo ?? '',
+    "businessOrderNo": businessOrderNo ?? '',
+    "paymentScenario": paymentScenario ?? 'CARD',
+    "cardIssuerName": cardIssuerName,
+    "transDate": transDate ?? '',
+    "respCode": respCode ?? '',
+    "payAtPump": payAtPump ?? 0,
+  };
 }

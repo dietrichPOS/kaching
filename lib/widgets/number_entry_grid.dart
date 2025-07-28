@@ -241,10 +241,10 @@ class _NumberEntryGridWidgetState extends State<NumberEntryGridWidget> {
                       ),
                       onPressed: () {
                         setState(() {
-                          widget.onChanged(0.toString());
+                          widget.onChanged(00.toString());
                         });
                       },
-                      child: Text('0', style: AppStyles.numericButtonTextStyle),
+                      child: Text('00', style: AppStyles.numericButtonTextStyle),
                     ),
                   ),
                   SizedBox(
@@ -312,10 +312,10 @@ class _NumberEntryGridWidgetState extends State<NumberEntryGridWidget> {
                   ),
                   onPressed: () {
                     setState(() {
-                      widget.onChanged('00');
+                      widget.onChanged('0');
                     });
                   },
-                  child: Text('00', style: AppStyles.numericButtonTextStyle),
+                  child: Text('0', style: AppStyles.numericButtonTextStyle),
                 ),
               ),
               SizedBox(

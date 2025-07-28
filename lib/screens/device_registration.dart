@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kaching/models/register.dart';
@@ -68,11 +67,10 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppStyles.backgroundColor,
-        body:
-            //Column(
-            //children: [
-            Column(
+      resizeToAvoidBottomInset: true, // Allow resizing when keyboard appears
+      backgroundColor: AppStyles.backgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -81,21 +79,20 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
               color: AppStyles.backgroundColor,
               child: Image.asset("assets/images/kachingtopdarker.png"),
             ),
-            //SingleChildScrollView(
             Container(
-              padding: const EdgeInsets.fromLTRB(30, 20, 30, 0).h,
+              padding: const EdgeInsets.fromLTRB(30, 20, 30, 30).h,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                   child: Container(
                     width: 350.w,
-                    height: 485.h,
                     padding: const EdgeInsets.all(25).h,
                     decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: Colors.grey.withOpacity(0)),
-                        color: Color(0xff20262e).withOpacity(0.8)),
+                      border: Border.all(
+                          width: 1, color: Colors.grey.withOpacity(0)),
+                      color: Color(0xff20262e).withOpacity(0.8),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -106,11 +103,12 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                           child: Text(
                             'DEVICE REGISTRATION',
                             style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'BarlowCondensed',
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0,
-                                fontSize: 24.sp),
+                              color: Colors.white,
+                              fontFamily: 'BarlowCondensed',
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0,
+                              fontSize: 24.sp,
+                            ),
                           ),
                         ),
                         Container(
@@ -119,15 +117,14 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                           child: Text(
                             'Enter the configuration IP and Port below',
                             style: TextStyle(
-                                color: Color.fromARGB(255, 182, 182, 182),
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w200,
-                                letterSpacing: 0,
-                                fontSize: 12.sp),
+                              color: Color.fromARGB(255, 182, 182, 182),
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w200,
+                              letterSpacing: 0,
+                              fontSize: 12.sp,
+                            ),
                           ),
                         ),
-                        //Center(
-
                         Container(
                           padding: const EdgeInsets.fromLTRB(0, 40, 0, 0).h,
                           child: TextField(
@@ -141,21 +138,22 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                             enableSuggestions: false,
                             style: AppStyles.textInputStyle,
                             decoration: const InputDecoration(
-                                filled: true,
-                                fillColor: Color(0xFF353535),
-                                labelStyle: AppStyles.textInputStyle,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color(0xFF353535), width: 0.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.white, width: 0.0),
-                                ),
-                                border: OutlineInputBorder(),
-                                labelText: 'IP Address',
-                                hintStyle: TextStyle(color: Color(0x50FFFFFF)),
-                                hintText: 'Start typing'),
+                              filled: true,
+                              fillColor: Color(0xFF353535),
+                              labelStyle: AppStyles.textInputStyle,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xFF353535), width: 0.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                BorderSide(color: Colors.white, width: 0.0),
+                              ),
+                              border: OutlineInputBorder(),
+                              labelText: 'IP Address',
+                              hintStyle: TextStyle(color: Color(0x50FFFFFF)),
+                              hintText: 'Start typing',
+                            ),
                           ),
                         ),
                         Container(
@@ -171,43 +169,43 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                             enableSuggestions: false,
                             style: AppStyles.textInputStyle,
                             decoration: const InputDecoration(
-                                filled: true,
-                                fillColor: Color(0xFF353535),
-                                labelStyle: AppStyles.textInputStyle,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color(0xFF353535), width: 0.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.white, width: 0.0),
-                                ),
-                                border: OutlineInputBorder(),
-                                labelText: 'Port',
-                                hintStyle: TextStyle(color: Color(0x50FFFFFF)),
-                                hintText: 'Start typing'),
+                              filled: true,
+                              fillColor: Color(0xFF353535),
+                              labelStyle: AppStyles.textInputStyle,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xFF353535), width: 0.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                BorderSide(color: Colors.white, width: 0.0),
+                              ),
+                              border: OutlineInputBorder(),
+                              labelText: 'Port',
+                              hintStyle: TextStyle(color: Color(0x50FFFFFF)),
+                              hintText: 'Start typing',
+                            ),
                           ),
                         ),
-                        //),
                         Container(
                           padding: const EdgeInsets.fromLTRB(0, 45, 0, 0).h,
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4)),
-                                backgroundColor: const Color(0xFF199D36)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              backgroundColor: const Color(0xFF199D36),
+                            ),
                             onPressed: () async {
                               await SecureStorageService.storeBaseUrl(
                                   serverIP, serverPort);
-                              //Clear soft keyboard
                               FocusScopeNode currentFocus =
-                                  FocusScope.of(context);
+                              FocusScope.of(context);
                               if (!currentFocus.hasPrimaryFocus) {
                                 currentFocus.unfocus();
                               }
 
                               setState(() {
-                                //isError = false;
                                 isLoaderShowing = true;
                               });
 
@@ -218,23 +216,22 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                               if (resp.statusCode == 500) {
                                 setState(() {
                                   deviceStatus =
-                                      'Device already in use (${resp.statusCode})';
+                                  'Device already in use (${resp.statusCode})';
                                 });
                                 return;
                               }
 
                               if (resp.statusCode == 200) {
                                 RegisterDto registerDto =
-                                    registerDtoFromJson(resp.body);
+                                registerDtoFromJson(resp.body);
                                 if (registerDto.success == true) {
                                   if (registerDto.data?.status == 'Pending') {
                                     setState(() {
                                       deviceStatus =
-                                          'Registration pending (${resp.statusCode})';
+                                      'Registration pending (${resp.statusCode})';
                                       buttonText = 'REFRESH';
                                     });
 
-                                    //Store the temp token
                                     await SecureStorageService.storeTempToken(
                                         registerDto.data?.apiKey ?? '');
                                     LoggingService.logInformation(
@@ -246,11 +243,10 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                                   if (registerDto.data?.status == 'Approved') {
                                     setState(() {
                                       deviceStatus =
-                                          'Approved (${resp.statusCode})';
+                                      'Approved (${resp.statusCode})';
                                       buttonText = 'CONTINUE';
                                     });
 
-                                    //Store token (api key)
                                     await SecureStorageService.storeToken(
                                         registerDto.data?.apiKey ?? '');
                                     LoggingService.logInformation(
@@ -258,12 +254,12 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
 
                                     if (context.mounted) {
                                       await Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                UserNumberPage(
-                                                    key: UniqueKey()),
-                                          ));
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => UserNumberPage(
+                                              key: UniqueKey()),
+                                        ),
+                                      );
                                     }
                                     return;
                                   }
@@ -272,11 +268,9 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
 
                               setState(() {
                                 deviceStatus =
-                                    'Unknown error (${resp.statusCode})';
+                                'Unknown error (${resp.statusCode})';
                                 buttonText = 'REGISTER DEVICE';
                               });
-
-                              return;
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -284,27 +278,29 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                               child: Text(
                                 buttonText,
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16.sp,
-                                    fontFamily: 'Roboto',
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w500),
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontFamily: 'Roboto',
+                                  letterSpacing: 0,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        const Spacer(),
+                        const SizedBox(height: 20), // Add spacing
                         Container(
                           alignment: Alignment.center,
                           padding: const EdgeInsets.fromLTRB(0, 5, 0, 0).h,
                           child: Text(
                             'Device ID: $deviceID',
                             style: TextStyle(
-                                color: Color.fromARGB(255, 182, 182, 182),
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 0,
-                                fontSize: 12.sp),
+                              color: Color.fromARGB(255, 182, 182, 182),
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0,
+                              fontSize: 12.sp,
+                            ),
                           ),
                         ),
                         Container(
@@ -313,11 +309,12 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                           child: Text(
                             deviceStatus,
                             style: TextStyle(
-                                color: Color.fromARGB(255, 182, 182, 182),
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w200,
-                                letterSpacing: 0,
-                                fontSize: 12.sp),
+                              color: Color.fromARGB(255, 182, 182, 182),
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w200,
+                              letterSpacing: 0,
+                              fontSize: 12.sp,
+                            ),
                           ),
                         ),
                         Container(
@@ -326,11 +323,12 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                           child: Text(
                             'App Version: $appVersion ($buildNumber)',
                             style: TextStyle(
-                                color: Color.fromARGB(255, 182, 182, 182),
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w200,
-                                letterSpacing: 0,
-                                fontSize: 12.sp),
+                              color: Color.fromARGB(255, 182, 182, 182),
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w200,
+                              letterSpacing: 0,
+                              fontSize: 12.sp,
+                            ),
                           ),
                         ),
                       ],
@@ -340,7 +338,8 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
               ),
             ),
           ],
-        )
-        );
+        ),
+      ),
+    );
   }
 }

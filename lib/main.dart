@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kaching/screens/device_registration.dart';
 import 'package:kaching/screens/user_number.dart';
 import 'package:kaching/services/secure_storage_service.dart';
+import 'package:kaching/services/printer_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,21 +29,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(360, 780),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Kaching',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-            ),
-            home: hasToken
-                ? UserNumberPage(key: UniqueKey())
-                : const DeviceRegistrationPage(),
-          );
+      designSize: const Size(360, 780),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+         // PrinterService.checkPrinterStatus(context);
         });
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Kaching Pay@',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: hasToken
+              ? UserNumberPage(key: UniqueKey())
+              : const DeviceRegistrationPage(),
+        );
+      },
+    );
   }
 }

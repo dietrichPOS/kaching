@@ -1,18 +1,16 @@
-import 'package:device_info/device_info.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kaching/models/orders.dart';
 import 'package:kaching/screens/select_order.dart';
-import 'package:kaching/services/intent_service.dart';
 import 'package:kaching/services/logging_service.dart';
 import 'package:kaching/services/registration_service.dart';
 import 'package:kaching/styles/app_styles.dart';
-import 'package:kaching/widgets/number_entry.dart';
 import 'package:kaching/widgets/number_entry_grid.dart';
 import 'package:kaching/services/web_service.dart';
 import 'package:flutter_shake_animated/flutter_shake_animated.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:kaching/services/printer_service.dart';
 
 class UserNumberPage extends StatefulWidget {
   const UserNumberPage({required Key key}) : super(key: key);
@@ -26,76 +24,95 @@ class _UserNumberPageState extends State<UserNumberPage> {
   String displayNumber = "____";
   String typedDigit = "";
   bool shakeActive = false;
+  String appVersion = '';
+  String buildNumber = '';
 
-  static const platformChannel = const MethodChannel('yourTestChannel');
+  static const platformChannel = MethodChannel('yourTestChannel');
+
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+    installerStore: 'Unknown',
+  );
 
   @override
   void initState() {
-    WidgetsFlutterBinding.ensureInitialized();
     super.initState();
     loadData();
+  }
+
+  Future<void> _initPackageInfo() async {
+    _packageInfo = await PackageInfo.fromPlatform();
   }
 
   loadData() async {
     await LoggingService.logInformation('KC App started');
     String deviceID = await RegistrationService.getDeviceID();
+    await _initPackageInfo();
+    setState(() {
+      appVersion = _packageInfo.version;
+      buildNumber = _packageInfo.buildNumber;
+    });
     debugPrint("[UserNumberPage] Device ID: $deviceID");
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return PopScope(
       canPop: false,
       child: Scaffold(
-          backgroundColor: AppStyles.backgroundColor,
-          body: Column(children: [
-            //Expanded(
-            //  flex: 1,
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              color: AppStyles.backgroundColor,
-              child: Image.asset("assets/images/kachingtopdarker.png"),
-              //     ),
-            ),
-            Expanded(
-                flex: 1,
-                child: Container(
-                  width: double.infinity,
-                  color: AppStyles.backgroundColor,
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.fromLTRB(50, 20, 50, 5),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Text(
-                            'Enter your 4 digit user number',
-                            textAlign: TextAlign.center,
-                            style: AppStyles.mediumTextStyle,
-                          ),
+        resizeToAvoidBottomInset: true, // Allow resizing when keyboard appears
+        backgroundColor: AppStyles.backgroundColor,
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                color: AppStyles.backgroundColor,
+                child: Image.asset("assets/images/kachingtopdarker.png"),
+              ),
+              Container(
+                width: double.infinity,
+                color: AppStyles.backgroundColor,
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.fromLTRB(50, 20, 50, 5).h,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          'Enter your 4 digit user number',
+                          textAlign: TextAlign.center,
+                          style: AppStyles.mediumTextStyle,
                         ),
                       ),
-                      Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                          child: ShakeWidget(
-                            duration: Duration(milliseconds: 3000),
-                            shakeConstant: ShakeHorizontalConstant2(),
-                            autoPlay: shakeActive,
-                            enableWebMouseHover: true,
-                            child: Text(
-                                '${displayNumber[0]} ${displayNumber[1]} ${displayNumber[2]} ${displayNumber[3]}',
-                                style: AppStyles.enterPinTextStyle),
-                          )),
-                    ],
-                  ),
-                )
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.fromLTRB(15, 0, 15, 20).h,
+                      child: ShakeWidget(
+                        duration: Duration(milliseconds: 3000),
+                        shakeConstant: ShakeHorizontalConstant2(),
+                        autoPlay: shakeActive,
+                        enableWebMouseHover: true,
+                        child: Text(
+                          '${displayNumber[0]} ${displayNumber[1]} ${displayNumber[2]} ${displayNumber[3]}',
+                          style: AppStyles.enterPinTextStyle,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-
-            SizedBox(
-                height: MediaQuery.of(context).size.width,
+              ),
+              Container(
+                // Remove fixed height to allow dynamic sizing
                 child: NumberEntryGridWidget(
                   key: UniqueKey(),
                   onChanged: (value) async {
@@ -128,7 +145,6 @@ class _UserNumberPageState extends State<UserNumberPage> {
                     }
 
                     if (userNumber.length == 4) {
-                      //Check user number
                       final resp = await WebService.fetchOrders(userNumber);
 
                       debugPrint("Response:${resp.body}");
@@ -140,7 +156,6 @@ class _UserNumberPageState extends State<UserNumberPage> {
                         });
 
                         final scaffoldContext = context;
-                        //Future.delayed(const Duration(milliseconds: 500), () {
                         ScaffoldMessenger.of(scaffoldContext).showSnackBar(
                           const SnackBar(
                             duration: Duration(milliseconds: 1000),
@@ -155,7 +170,6 @@ class _UserNumberPageState extends State<UserNumberPage> {
                               ),
                             ),
                           ),
-                          //);
                         );
 
                         Future.delayed(const Duration(milliseconds: 500), () {
@@ -205,18 +219,37 @@ class _UserNumberPageState extends State<UserNumberPage> {
                         } else {
                           if (context.mounted) {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SelectOrderPage(
-                                      key: UniqueKey(), ordersDTO: ordersDTO),
-                                ));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SelectOrderPage(
+                                    key: UniqueKey(), ordersDTO: ordersDTO),
+                              ),
+                            );
                           }
                         }
                       }
                     }
                   },
-                ))
-          ])),
+                ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                child: Text(
+                  'App Version: $appVersion',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0,
+                    fontSize: 12.sp,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
